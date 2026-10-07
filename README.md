@@ -122,7 +122,7 @@ that the interactive map does not list were added.
   icon. Any other mod that replaces this same file is incompatible: only one of them will work.
 - **Game updates.** A future patch that changes the world map may break the mod. If the map
   misbehaves after an update, uninstall the mod until there is a fix.
-- **Limited testing.** Tested on the Steam Next Gen version (DX12), on Linux through Proton, in
+- **Limited testing.** Tested on the Steam Remastered edition (DX12), on Linux through Proton, in
   Brazilian Portuguese, with a small number of other mods. Keep backups of your saves.
 
 ## Uninstallation
