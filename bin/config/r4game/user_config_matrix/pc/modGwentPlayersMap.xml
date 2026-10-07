@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- In-game settings for Gwent Players Map (Options > Mods).
+     Labels come from the mod's w3strings (mods\modGwentPlayersMap\content\*.w3strings):
+       panel_mods, panel_gwentplayersmap, option_gwm_*, preset_value_gwm_* -->
+<UserConfig>
+	<Group id="GwentPlayersMap" displayName="Mods.gwentplayersmap">
+		<VisibleVars>
+			<Var id="GwmShowPins" displayName="gwm_show_pins" displayType="TOGGLE"/>
+			<Var id="GwmShowDefeated" displayName="gwm_show_defeated" displayType="TOGGLE"/>
+			<Var id="GwmIconPlacement" displayName="gwm_icon_placement" displayType="OPTIONS">
+				<OptionsArray>
+					<Option id="0" displayName="gwm_side">
+						<Entry varId="GwmIconPlacement" value="0"/>
+					</Option>
+					<Option id="1" displayName="gwm_replace">
+						<Entry varId="GwmIconPlacement" value="1"/>
+					</Option>
+					<Option id="2" displayName="gwm_overlap">
+						<Entry varId="GwmIconPlacement" value="2"/>
+					</Option>
+				</OptionsArray>
+			</Var>
+		</VisibleVars>
+	</Group>
+</UserConfig>
