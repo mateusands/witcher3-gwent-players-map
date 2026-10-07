@@ -8,6 +8,9 @@ you, so you can grow your deck.
 Players you have already beaten are drawn greyed out, the same way the game greys out places you
 have cleared.
 
+**Download:** [Nexus Mods](https://www.nexusmods.com/witcher3/mods/13755) or
+[GitHub Releases](https://github.com/mateusands/witcher3-gwent-players-map/releases/latest).
+
 ![Novigrad](screenshots/novigrad.jpg)
 
 | Not beaten yet | Already beaten |
