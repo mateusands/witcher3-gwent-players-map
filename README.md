@@ -118,7 +118,8 @@ world map file (`panel_worldmap.redswf`, inside `blob0.bundle`), built from the 
 
 ## Compatibility
 
-Checked against these mods (their files and scripts, not every combination in game):
+Checked against these mods (their files and scripts, not every combination in game), plus
+reports from players:
 
 | Mod | Works together? |
 | --- | --- |
@@ -130,6 +131,8 @@ Checked against these mods (their files and scripts, not every combination in ga
 | Witcher's Path | **No**: both replace `panel_worldmap.redswf` |
 | Map Quest Objectives | **No**: both replace `panel_worldmap.redswf` |
 | True Map POIs | Unknown: it ships the map menu precompiled, which may switch this mod's map hook off |
+| Seamless HUDs Maps | Yes, reported by players: give Seamless HUDs Maps a **higher priority** (lower number) than this mod; the cards then use its map style |
+| The Stable - Roach-Horse Customization | **No**, reported by a player: it replaces `panel_worldmap.redswf` and also ships precompiled map menu scripts, so changing the priority does not fix it |
 
 - **Gwent overhauls (Gwent Redux and similar):** the markers work the same. Merchants beaten
   before installing this mod are detected through the game's own reward records; if an overhaul
@@ -139,7 +142,8 @@ Checked against these mods (their files and scripts, not every combination in ga
   field and a method added to `CR4Game`. No vanilla script file is replaced, so Script Merger is
   not needed.
 - **Map mods:** any mod that replaces `panel_worldmap.redswf` conflicts with this one: only one
-  copy of that file can load (in the Witcher 3 the mod whose folder name sorts first wins).
+  copy of that file can load. The mod with the higher priority wins (lower number in your mod
+  manager or in `mods.settings`; without priorities, the folder name that sorts first wins).
 
 ## Troubleshooting
 
