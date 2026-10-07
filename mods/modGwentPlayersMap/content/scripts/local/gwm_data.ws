@@ -97,8 +97,6 @@ function GwmLoadData( d : GwmData )
 	d.AddPin( 93, "skellige", 530.5, -192.6, "Herbalist", 'herbalist_community_herbalist_01', '' );
 	d.AddPin( 94, "skellige", -67.2, 656.2, "Shopkeeper", 'kaer_trolde_general_store_01', '' );
 	d.AddPin( 95, "skellige", 112.5, 47.3, "Fishmonger", 'rannvaig_fish_trader_01', '' );
-	d.AddPin( 96, "novigrad", 1886.1, 1382.6, "Quartermaster", 'roches_camp_quartermaster_01', '' );
-	d.AddPin( 97, "novigrad", 170.8, -477.2, "Blacksmith", 'rudnik_blacksmith_01', '' );
 	d.AddPin( 98, "novigrad", 631.5, 1554.6, "Shopkeeper", 'toderas_village_trader_01', '' );
 	d.AddPin( 99, "novigrad", 530.9, 535.8, "Innkeeper, Inn at the Crossroads", '', 'gwint_card_menno' );
 }

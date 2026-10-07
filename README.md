@@ -27,6 +27,18 @@ have cleared.
   choose where the card goes relative to the merchant's own map icon.
 - Everything is in English, in every game language.
 
+## Good to know: what a merchant gives you
+
+- **Common merchants** (Velen, Novigrad, Skellige, the Hearts of Stone circus): the first win
+  against each one gives a **random card** from one shared pool of 51 cards, never one you already
+  got from another merchant. Once that pool is used up, the remaining merchants give
+  **crafting materials** instead of a card. So a white card on the map means "not beaten yet",
+  not always "has a new card for you".
+- **Toussaint players** (Blood and Wine): each one gives a **fixed card** of their own, so every
+  white card there is a new card.
+- **Quest players** (Bloody Baron, Vimme Vivaldi, Stjepan, Olivier, Gremist and others): each one
+  has a unique card; their marker says whether you have it.
+
 ## Requirements
 
 - The Witcher 3: Wild Hunt, current version: the **Remastered edition** (also called Next Gen,
