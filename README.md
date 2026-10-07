@@ -34,22 +34,23 @@ have cleared.
 
 ## Installation
 
-1. Copy the `mods` and `bin` folders from this repository into your game folder (the folder that
-   already contains `bin`, `content` and `Mods`/`mods`). You should end up with:
+1. Download `GwentPlayersMap.zip` from the
+   [Releases page](https://github.com/mateusands/witcher3-gwent-players-map/releases/latest).
+2. Extract it into your game folder (the folder that contains `bin` and `content`). It adds:
 
-       mods\modGwentPlayersMap\                                   (the mod)
+       mods\modGwentPlayersMap\                                         (the mod)
        bin\config\r4game\user_config_matrix\pc\modGwentPlayersMap.xml   (options menu)
 
-2. For the options menu, the Next Gen game also needs the XML listed in
-   `bin\config\r4game\user_config_matrix\pc\dx11filelist.txt` **and** `dx12filelist.txt`.
-   Add this line to both files (create them if they do not exist; if you create them, also list
-   the game's own XML files from that folder, one per line, the same way):
-
-       modGwentPlayersMap.xml;
-
-   The menu is optional. Without it the mod still works with the default settings.
-
 3. Start the game. The scripts are compiled on the first start.
+
+No game file is replaced on disk. The options menu file is optional: without it the mod works
+with the default settings.
+
+**The options menu does not show up?** Some setups only load the menu files listed in
+`bin\config\r4game\user_config_matrix\pc\dx11filelist.txt` and `dx12filelist.txt`. If those
+files exist in your game, add this line to both:
+
+    modGwentPlayersMap.xml;
 
 ## Options
 
@@ -102,8 +103,8 @@ that the interactive map does not list were added.
 ## Uninstallation
 
 Delete `mods\modGwentPlayersMap` and
-`bin\config\r4game\user_config_matrix\pc\modGwentPlayersMap.xml`, and remove the
-`modGwentPlayersMap.xml;` line from `dx11filelist.txt` and `dx12filelist.txt`.
+`bin\config\r4game\user_config_matrix\pc\modGwentPlayersMap.xml` (and the
+`modGwentPlayersMap.xml;` line, if you added it to `dx11filelist.txt`/`dx12filelist.txt`).
 
 The mod only writes a few small facts to your save (for the "anyone else" players above), which
 the game ignores once the mod is removed, so it can be uninstalled at any time.
