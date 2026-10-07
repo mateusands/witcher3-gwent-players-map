@@ -408,7 +408,9 @@ function GwmSideOffset() : float
 		obj.SetMemberFlashNumber( "posX",          pos.X );
 		obj.SetMemberFlashNumber( "posY",          pos.Y );
 		obj.SetMemberFlashString( "type",          pinType );
-		obj.SetMemberFlashString( "filteredType",  pinType );
+		// The map's category filter only knows vanilla pin types, so a new type would only show
+		// under "All". Filter the cards as merchants; the icon still comes from "type".
+		obj.SetMemberFlashString( "filteredType",  "Shopkeeper" );
 		obj.SetMemberFlashNumber( "radius",        0 );
 		obj.SetMemberFlashBool(   "isFastTravel",  false );
 		obj.SetMemberFlashBool(   "isQuest",       false );

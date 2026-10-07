@@ -106,6 +106,9 @@ that the interactive map does not list were added.
   `<game>\mods\modGwentPlayersMap\content\scripts\local\gwm.ws` (a mod manager sometimes adds
   an extra folder level), and that the game shows no script compilation error on start.
   Also check *Options > Mods > Gwent Players Map > Show Gwent markers*.
+- **Cards only show with the map filter on "All":** update to 1.0.2 or newer. Since 1.0.2 the
+  cards are filed with the merchants, so they also show in the merchant category of the map
+  filter.
 - **Still not working:** open an issue or comment with your game version, how you installed the
   mod, any error message and your other mods.
 
