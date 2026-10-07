@@ -191,8 +191,10 @@ author. It is a hobby project.
 
 ## Credits
 
-- Gwent player locations: [witcher3map.com](https://witcher3map.com) /
-  [untamed0/witcher3map](https://github.com/untamed0/witcher3map) and its contributors.
+- Gwent player locations: adapted from [witcher3map.com](https://witcher3map.com) by untamed0
+  and contributors ([untamed0/witcher3map](https://github.com/untamed0/witcher3map)), licensed
+  under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). The positions
+  were converted to in-game coordinates and corrected against the game files.
 - [Gwent Card Notification](https://www.nexusmods.com/witcher3/mods/13409) by funkyblackcat,
   used as a reference for the options menu, string files and bundle layout.
 - Witcher's Path, used as a reference for adding a filter to the world map.
@@ -206,3 +208,8 @@ Bug reports, missing or wrong Gwent players, translations and fixes are welcome:
 [issue](https://github.com/mateusands/witcher3-gwent-players-map/issues) or a pull request.
 When reporting a player, please include the NPC (name or role), the place, and a screenshot
 of the map if you can.
+
+## License
+
+[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/), see [LICENSE](LICENSE).
+The Witcher 3 and its assets belong to CD PROJEKT RED.
