@@ -7,6 +7,14 @@
 //   none  anyone else: fact gwm_won_<pinId>, written by this mod after a win next to the pin
 // Merchants also get gwm_won_<pinId> when beaten next to their NPC, in case another mod
 // changes the game's reward facts.
+//
+// Map file (content/blob0.bundle): a modified panel_worldmap.redswf with the card icons
+// (GwentPlayer / GwentPlayerDisabled) and a "Gwent" map filter for those pin types.
+
+function GwmVersion() : string
+{
+	return "1.0.4";
+}
 
 struct GwmPin
 {
@@ -27,10 +35,31 @@ class GwmData
 	public var iconNormal   : string;	default iconNormal   = "GwentPlayer";
 	public var iconDefeated : string;	default iconDefeated = "GwentPlayerDisabled";
 
+	private var cardIconsChecked : bool;
+	private var cardIconsLoaded  : bool;
+
 	public function Init()
 	{
 		pins.Clear();
 		GwmLoadData( this );
+	}
+
+	// The marker file ships in the same bundle as the card icons: if it can be loaded, so was the map file.
+	// Only reported by the "Debug info" option.
+	public function CardIconsLoaded() : bool
+	{
+		var marker : C2dArray;
+
+		if ( !cardIconsChecked )
+		{
+			marker = LoadCSV( "gameplay\gui_new\swf\worldmap\gwm_card_icons.csv" );
+			if ( marker )
+			{
+				cardIconsLoaded = true;
+			}
+			cardIconsChecked = true;
+		}
+		return cardIconsLoaded;
 	}
 
 	public function AddPin( id : int, world : string, x : float, y : float, role : string, tag : name, card : name )
@@ -207,6 +236,11 @@ function GwmInitConfig()
 		config.SetVarValue( 'GwentPlayersMap', 'GwmIconPlacement', "0" );
 		changed = true;
 	}
+	if ( config.GetVarValue( 'GwentPlayersMap', 'GwmDebug' ) == "" )
+	{
+		config.SetVarValue( 'GwentPlayersMap', 'GwmDebug', "false" );
+		changed = true;
+	}
 	if ( changed )
 	{
 		theGame.SaveUserSettings();
@@ -221,7 +255,9 @@ function GwmConfigBool( varName : name, defaultValue : bool ) : bool
 	{
 		return defaultValue;
 	}
-	return value == "true";
+	// The game stores toggles as "true"/"false" or as "1"/"0" depending on how they were set.
+	value = StrLower( value );
+	return value == "true" || value == "1";
 }
 
 // 0 = next to the merchant icon, 1 = replace it, 2 = on top of it.
@@ -239,6 +275,7 @@ function GwmIconPlacement() : int
 // Map data is per world: Velen and Novigrad share one, Toussaint is "bob".
 function GwmWorldKey( path : string ) : string
 {
+	path = StrLower( path );
 	if ( StrContains( path, "winter" ) )
 	{
 		return "";
@@ -276,10 +313,11 @@ function GwmIsShopPinType( type : name ) : bool
 		|| type == 'Archmaster' || type == 'BoatBuilder';
 }
 
-// Distance in metres the card is moved east of the merchant icon in "next to" mode.
+// Distance in metres the card is moved east of the merchant icon in "next to" mode
+// (about one icon width at the usual city zoom).
 function GwmSideOffset() : float
 {
-	return 8;
+	return 18;
 }
 
 @wrapMethod( CR4Player ) function SetGwintMinigameState( minigameState : EMinigameState )
@@ -314,11 +352,18 @@ function GwmSideOffset() : float
 	var defeated      : bool;
 	var pinType       : string;
 	var d, bestDist   : float;
+	var showDebug     : bool;
+	var added         : int;
 
 	wrappedMethod( flashArray );
 
+	showDebug = GwmConfigBool( 'GwmDebug', false );
 	if ( !GwmConfigBool( 'GwmShowPins', true ) )
 	{
+		if ( showDebug )
+		{
+			GwmDebugNote( "markers are switched off in the options" );
+		}
 		return;
 	}
 
@@ -328,6 +373,10 @@ function GwmSideOffset() : float
 	worldKey = GwmWorldKey( worldPath );
 	if ( worldKey == "" )
 	{
+		if ( showDebug )
+		{
+			GwmDebugNote( "no Gwent players on this map (" + worldPath + ")" );
+		}
 		return;
 	}
 
@@ -408,9 +457,9 @@ function GwmSideOffset() : float
 		obj.SetMemberFlashNumber( "posX",          pos.X );
 		obj.SetMemberFlashNumber( "posY",          pos.Y );
 		obj.SetMemberFlashString( "type",          pinType );
-		// The map's category filter only knows vanilla pin types, so a new type would only show
-		// under "All". Filter the cards as merchants; the icon still comes from "type".
-		obj.SetMemberFlashString( "filteredType",  "Shopkeeper" );
+		// The patched map file files "GwentPlayer" under its "Gwent" filter (and "Default").
+		// One filtered type for beaten and not beaten keeps them in a single legend row.
+		obj.SetMemberFlashString( "filteredType",  "GwentPlayer" );
 		obj.SetMemberFlashNumber( "radius",        0 );
 		obj.SetMemberFlashBool(   "isFastTravel",  false );
 		obj.SetMemberFlashBool(   "isQuest",       false );
@@ -424,9 +473,11 @@ function GwmSideOffset() : float
 		{
 			obj.SetMemberFlashNumber( "distance", 0 );
 		}
-		obj.SetMemberFlashString( "label", "Gwent: " + data.pins[ i ].role );
-		obj.SetMemberFlashString( "description", GwmStatusText( data.pins[ i ], defeated ) );
+		// The legend row takes its text from the label, so the label is the same for every card.
+		obj.SetMemberFlashString( "label", "Gwent player" );
+		obj.SetMemberFlashString( "description", data.pins[ i ].role + " - " + GwmStatusText( data.pins[ i ], defeated ) );
 		flashArray.PushBackFlashObject( obj );
+		added += 1;
 	}
 
 	// "Replace" mode: drop the vanilla shop icons the cards now stand for.
@@ -441,6 +492,24 @@ function GwmSideOffset() : float
 			}
 		}
 	}
+
+	if ( showDebug )
+	{
+		if ( data.CardIconsLoaded() )
+		{
+			GwmDebugNote( added + " markers on " + worldKey + ", map file loaded" );
+		}
+		else
+		{
+			GwmDebugNote( added + " markers on " + worldKey + ", MAP FILE NOT LOADED (cards are invisible)" );
+		}
+	}
+}
+
+// "Debug info" option: one line on screen each time the world map builds its markers.
+function GwmDebugNote( text : string )
+{
+	theGame.GetGuiManager().ShowNotification( "Gwent Players Map " + GwmVersion() + ": " + text );
 }
 
 // Quest players are judged by their card, so say that; everyone else is beaten or not.

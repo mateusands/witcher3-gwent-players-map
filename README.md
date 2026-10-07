@@ -17,17 +17,26 @@ have cleared.
 | --- | --- |
 | ![Not beaten](screenshots/not-beaten.jpg) | ![Beaten](screenshots/beaten.jpg) |
 
+| "Gwent" map filter | "Merchants and craftsmen" filter |
+| --- | --- |
+| ![Gwent filter](screenshots/gwent-filter.jpg) | ![Merchants filter](screenshots/merchants-filter.jpg) |
+
 ## Features
 
 - A card icon on the world map for each Gwent player: white while you can still win something,
   grey once you have beaten them.
-- Hover a card to see who it is (for example "Gwent: Blacksmith") and whether they are beaten.
+- A **"Gwent" map filter**: pick it in the filter selector (bottom left of the map) to see only
+  the Gwent players. The cards also show under "All", "Default" and "Merchants and craftsmen".
+- A **"Gwent player" row in the map legend**, with the card icon, the count, and the arrows that
+  jump from one player to the next.
+- Hover a card to see who it is and whether they are beaten (for example "Gwent player" /
+  "Blacksmith - Not beaten yet.").
 - Works with your current save: merchants you beat before installing the mod already show as
   beaten (see "How it works").
 - Covers White Orchard, Velen, Novigrad, Oxenfurt, Skellige and Toussaint, including a few
   merchants added by Hearts of Stone and Blood and Wine.
-- Options menu: hide the markers, hide the players already beaten (show only the ones left), and
-  choose where the card goes relative to the merchant's own map icon.
+- Options menu: hide the markers, hide the players already beaten (show only the ones left),
+  choose where the card goes relative to the merchant's own map icon, and a "Debug info" switch.
 - Everything is in English, in every game language.
 
 ## Good to know: what a merchant gives you
@@ -44,11 +53,10 @@ have cleared.
 
 ## Requirements
 
-- The Witcher 3: Wild Hunt, current version: the **Remastered edition** (also called Next Gen,
-  patch 4.04 or newer). Remastered and Next Gen are the same branch of the game. The old 1.32
-  version is **not** supported: the scripts use annotations (`@wrapMethod`, `@addMethod`,
-  `@addField`) that 1.32 does not have.
-- Tested on the Steam Remastered edition (DX12).
+- The Witcher 3: Wild Hunt, current version: the **Remastered edition** (patch 5.0; also called
+  Next Gen, which started with patch 4.0). The old 1.32 version is **not** supported: the scripts
+  use annotations (`@wrapMethod`, `@addMethod`, `@addField`) that 1.32 does not have.
+- Tested on the Steam Remastered edition, patch 5.0 (DX12).
 
 ## Installation
 
@@ -72,7 +80,7 @@ files exist in your game, add this line to both:
 
 ## Options
 
-**Options > Mods > Gwent Players Map**
+**Options > Mods > Gwent Players Map** (the title shows the installed version)
 
 ![Options](screenshots/options.jpg)
 
@@ -82,6 +90,9 @@ files exist in your game, add this line to both:
   - *Next to the merchant icon*: the card sits right next to the shop icon.
   - *Replace the merchant icon*: the shop icon is hidden and only the card is shown.
   - *On top of the merchant icon*: the card is drawn over the shop icon.
+- **Debug info**: shows a line each time the world map builds its markers, for example
+  `Gwent Players Map 1.0.4: 47 markers on novigrad, map file loaded`. Useful when something does
+  not show up (see "Troubleshooting").
 
 ## How it works
 
@@ -89,7 +100,8 @@ files exist in your game, add this line to both:
 [witcher3map.com](https://witcher3map.com) (its "Gwent Player" layer). Those positions were
 converted to in-game coordinates and then checked against the game's own data: the position of
 each merchant was read from the game's world files and used where available, and a few merchants
-that the interactive map does not list were added.
+that the interactive map does not list were added (and a few it lists that do not play Gwent were
+removed).
 
 **Who is beaten.**
 
@@ -99,32 +111,51 @@ that the interactive map does not list were added.
 - *Quest players* (for example the Bloody Baron, Vimme Vivaldi, Stjepan in Oxenfurt, Olivier at
   the Kingfisher, the Inn at the Crossroads innkeeper, Gremist): the marker says "Card obtained"
   or "Card not obtained yet", based on whether their unique card is in your inventory.
-- *Anyone else* (a handful of players the game keeps no record for): the mod marks them when you
-  win a match right next to their marker, from the moment the mod is installed.
+- Every match you win against a player standing right next to you is also recorded by the mod.
+
+**The map file.** The card icons and the "Gwent" filter live in a modified copy of the game's
+world map file (`panel_worldmap.redswf`, inside `blob0.bundle`), built from the game's own file.
 
 ## Compatibility
 
+Checked against these mods (their files and scripts, not every combination in game):
+
+| Mod | Works together? |
+| --- | --- |
+| All Quest Markers Plus | Yes (it hooks the same map function, but only edits quest and "?" markers) |
+| Quest Levels on Map | Yes |
+| Colored Map Markers | Yes (it changes the minimap, not the world map) |
+| Missing Gwent Cards Tracker And Trader | Yes |
+| Gwent Card Notification | Yes |
+| Witcher's Path | **No**: both replace `panel_worldmap.redswf` |
+| Map Quest Objectives | **No**: both replace `panel_worldmap.redswf` |
+| True Map POIs | Unknown: it ships the map menu precompiled, which may switch this mod's map hook off |
+
 - **Gwent overhauls (Gwent Redux and similar):** the markers work the same. Merchants beaten
   before installing this mod are detected through the game's own reward records; if an overhaul
-  changes how rewards are given, those may not show as beaten. Every match you win against a
-  merchant (standing right next to you) is also recorded by this mod, so new wins are always
-  marked.
+  changes how rewards are given, those may not show as beaten, but new wins are always marked.
 - **Script hooks:** `CR4MapMenu.UpdateEntityPins` (adds the cards to the world map) and
   `CR4Player.SetGwintMinigameState` (notices a won match), both through `@wrapMethod`, plus a
   field and a method added to `CR4Game`. No vanilla script file is replaced, so Script Merger is
   not needed.
-- **Map mods:** any mod that replaces `panel_worldmap.redswf` conflicts with this one (see below).
+- **Map mods:** any mod that replaces `panel_worldmap.redswf` conflicts with this one: only one
+  copy of that file can load (in the Witcher 3 the mod whose folder name sorts first wins).
 
 ## Troubleshooting
 
-- **Nothing shows on the map:** check that the files ended up exactly at
-  `<game>\mods\modGwentPlayersMap\content\scripts\local\gwm.ws` (a mod manager sometimes adds
-  an extra folder level), and that the game shows no script compilation error on start.
-  Also check *Options > Mods > Gwent Players Map > Show Gwent markers*.
-- **Cards only show with the map filter on "All":** update to 1.0.2 or newer. Since 1.0.2 the
-  cards are filed with the merchants, so they also show in the merchant category of the map
-  filter.
-- **Still not working:** open an issue or comment with your game version, how you installed the
+Turn on **Debug info** in the options and open the world map:
+
+- **"... markers on ..., map file loaded"**: the mod works. If you still see nothing, check the
+  map filter (bottom left) and *Show Gwent markers*.
+- **"MAP FILE NOT LOADED"**: the markers are there (their tooltip shows on hover) but the card
+  icon is missing. Check that `mods\modGwentPlayersMap\content\blob0.bundle` and
+  `metadata.store` are installed.
+- **No message at all**: the mod's map script is not running. Usually that is a script
+  compilation error when the game starts, or another mod that replaces or precompiles the map
+  menu. Check that the files ended up exactly at
+  `<game>\mods\modGwentPlayersMap\content\scripts\local\gwm.ws` (a mod manager sometimes adds an
+  extra folder level).
+- **Still not working:** open an issue or comment with the debug message, how you installed the
   mod, any error message and your other mods.
 
 ## Known limitations
@@ -133,11 +164,11 @@ that the interactive map does not list were added.
   matched in the game files. Some players may be missing, and a few markers may be a little off
   their exact spot. The focus is the merchants, blacksmiths, innkeepers and other fixed players
   who give you a card; one-off quest matches (tournaments, story scenes) are not marked.
-- **Three markers have no game record:** Elsa (White Orchard innkeeper), an innkeeper in Larvik
-  and the blacksmith in Fyresdal. They only turn grey when you beat them with the mod installed.
-- **Conflicts with other map mods.** The mod ships a modified copy of the game file
-  `gameplay\gui_new\swf\worldmap\panel_worldmap.redswf` (inside `blob0.bundle`) to add the card
-  icon. Any other mod that replaces this same file is incompatible: only one of them will work.
+- **Two smiths have no game record:** the blacksmiths in Larvik and Fyresdal play Gwent but the
+  game keeps no record of beating them. They only turn grey when you beat them with the mod
+  installed.
+- **"Next to the merchant icon"** moves the card a fixed distance in the world, so when the map
+  is zoomed far out the two icons can still touch.
 - **Game updates.** A future patch that changes the world map may break the mod. If the map
   misbehaves after an update, uninstall the mod until there is a fix.
 - **Limited testing.** Tested on the Steam Remastered edition (DX12), on Linux through Proton, in
@@ -149,13 +180,14 @@ Delete `mods\modGwentPlayersMap` and
 `bin\config\r4game\user_config_matrix\pc\modGwentPlayersMap.xml` (and the
 `modGwentPlayersMap.xml;` line, if you added it to `dx11filelist.txt`/`dx12filelist.txt`).
 
-The mod only writes a few small facts to your save (for the "anyone else" players above), which
-the game ignores once the mod is removed, so it can be uninstalled at any time.
+The mod only writes a few small facts to your save (wins it recorded itself), which the game
+ignores once the mod is removed, so it can be uninstalled at any time.
 
 ## AI disclosure
 
-This mod was made with an AI assistant (Claude, by Anthropic): the scripts, the data extraction
-and the map icon were written by the AI, and the mod was tested in-game by the author.
+This mod was made with an AI assistant (Claude, by Anthropic): the scripts, the data extraction,
+the map icon and the map filter were written by the AI, and the mod was tested in-game by the
+author. It is a hobby project.
 
 ## Credits
 
@@ -163,4 +195,7 @@ and the map icon were written by the AI, and the mod was tested in-game by the a
   [untamed0/witcher3map](https://github.com/untamed0/witcher3map) and its contributors.
 - [Gwent Card Notification](https://www.nexusmods.com/witcher3/mods/13409) by funkyblackcat,
   used as a reference for the options menu, string files and bundle layout.
+- Witcher's Path, used as a reference for adding a filter to the world map.
+- [JPEXS Free Flash Decompiler](https://github.com/jindrapetrik/jpexs-decompiler), used to edit
+  the map's ActionScript.
 - The Witcher 3 and all its assets belong to CD PROJEKT RED.

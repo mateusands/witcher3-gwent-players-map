@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- In-game settings for Gwent Players Map (Options > Mods).
      Labels come from the mod's w3strings (mods\modGwentPlayersMap\content\*.w3strings):
-       panel_mods, panel_gwentplayersmap, option_gwm_*, preset_value_gwm_* -->
+       panel_mods, panel_gwentplayersmap (title, with the version), option_gwm_*, preset_value_gwm_* -->
 <UserConfig>
 	<Group id="GwentPlayersMap" displayName="Mods.gwentplayersmap">
 		<VisibleVars>
@@ -20,6 +20,7 @@
 					</Option>
 				</OptionsArray>
 			</Var>
+			<Var id="GwmDebug" displayName="gwm_debug" displayType="TOGGLE"/>
 		</VisibleVars>
 	</Group>
 </UserConfig>
