@@ -199,3 +199,10 @@ author. It is a hobby project.
 - [JPEXS Free Flash Decompiler](https://github.com/jindrapetrik/jpexs-decompiler), used to edit
   the map's ActionScript.
 - The Witcher 3 and all its assets belong to CD PROJEKT RED.
+
+## Contributing
+
+Bug reports, missing or wrong Gwent players, translations and fixes are welcome: open an
+[issue](https://github.com/mateusands/witcher3-gwent-players-map/issues) or a pull request.
+When reporting a player, please include the NPC (name or role), the place, and a screenshot
+of the map if you can.
