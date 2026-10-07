@@ -91,7 +91,7 @@ files exist in your game, add this line to both:
   - *Replace the merchant icon*: the shop icon is hidden and only the card is shown.
   - *On top of the merchant icon*: the card is drawn over the shop icon.
 - **Debug info**: shows a line each time the world map builds its markers, for example
-  `Gwent Players Map 1.0.4: 47 markers on novigrad, map file loaded`. Useful when something does
+  `Gwent Players Map 1.0.5: 47 markers on novigrad, map file loaded`. Useful when something does
   not show up (see "Troubleshooting").
 
 ## How it works
@@ -111,7 +111,8 @@ removed).
 - *Quest players* (for example the Bloody Baron, Vimme Vivaldi, Stjepan in Oxenfurt, Olivier at
   the Kingfisher, the Inn at the Crossroads innkeeper, Gremist): the marker says "Card obtained"
   or "Card not obtained yet", based on whether their unique card is in your inventory.
-- Every match you win against a player standing right next to you is also recorded by the mod.
+- Every match you win next to a player's marker is also recorded by the mod, so merchants
+  beaten after the card pool runs out (when the game records nothing) still turn grey.
 
 **The map file.** The card icons and the "Gwent" filter live in a modified copy of the game's
 world map file (`panel_worldmap.redswf`, inside `blob0.bundle`), built from the game's own file.
@@ -173,6 +174,10 @@ Turn on **Debug info** in the options and open the world map:
 - **Two smiths have no game record:** the blacksmiths in Larvik and Fyresdal play Gwent but the
   game keeps no record of beating them. They only turn grey when you beat them with the mod
   installed.
+- **Merchants beaten after the card pool runs out:** once every card from the shared merchant
+  pool is collected, merchants give crafting materials and the game keeps no record of the win.
+  Those wins are marked only when you beat the merchant with the mod installed (standing near
+  their marker); wins from before the mod was installed cannot be detected.
 - **"Next to the merchant icon"** moves the card a fixed distance in the world, so when the map
   is zoomed far out the two icons can still touch.
 - **Game updates.** A future patch that changes the world map may break the mod. If the map

@@ -5,15 +5,15 @@
 //   tag   merchant: facts the game writes on the first win (see MerchantBeaten)
 //   card  quest player: the unique card is in the inventory
 //   none  anyone else: fact gwm_won_<pinId>, written by this mod after a win next to the pin
-// Merchants also get gwm_won_<pinId> when beaten next to their NPC, in case another mod
-// changes the game's reward facts.
+// Merchants also get gwm_won_<pinId> when beaten next to their pin: the game records nothing
+// once the shared card pool is used up, and another mod may change the reward facts.
 //
 // Map file (content/blob0.bundle): a modified panel_worldmap.redswf with the card icons
 // (GwentPlayer / GwentPlayerDisabled) and a "Gwent" map filter for those pin types.
 
 function GwmVersion() : string
 {
-	return "1.0.4";
+	return "1.0.5";
 }
 
 struct GwmPin
@@ -164,8 +164,8 @@ class GwmData
 		}
 	}
 
-	// Called on every won match. The game's own records stay the main source; this keeps
-	// the map right when another mod changes how Gwent rewards are given (e.g. Gwent overhauls).
+	// Called on every won match. The game's own records stay the main source; this covers the
+	// wins it does not record (card pool used up, Gwent overhauls changing the rewards).
 	public function OnGwentWon()
 	{
 		var idx : int;
@@ -184,10 +184,12 @@ class GwmData
 			return;
 		}
 
-		// Anyone else without a game record: the closest pin, with a short radius so quest
-		// matches (tournaments, parties) away from fixed players do not mark anyone.
+		// Otherwise the closest pin, with a short radius so quest matches (tournaments, parties)
+		// away from fixed players do not mark anyone. Merchants are included: once the shared
+		// card pool is used up the game gives crafting materials and records nothing, and their
+		// NPC is not always found by tag. Quest players are left to their card check.
 		idx = FindNearest( world, thePlayer.GetWorldPosition(), 15 );
-		if ( idx >= 0 && !IsNameValid( pins[ idx ].tag ) && !IsNameValid( pins[ idx ].card ) )
+		if ( idx >= 0 && !IsNameValid( pins[ idx ].card ) )
 		{
 			MarkWon( idx );
 		}
