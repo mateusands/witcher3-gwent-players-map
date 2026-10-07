@@ -5,6 +5,8 @@
 //   tag   merchant: facts the game writes on the first win (see MerchantBeaten)
 //   card  quest player: the unique card is in the inventory
 //   none  anyone else: fact gwm_won_<pinId>, written by this mod after a win next to the pin
+// Merchants also get gwm_won_<pinId> when beaten next to their NPC, in case another mod
+// changes the game's reward facts.
 
 struct GwmPin
 {
@@ -102,9 +104,39 @@ class GwmData
 		return best;
 	}
 
-	// Merchants and quest players are judged by the game's own records. Only pins with
-	// neither need this: the closest one gets marked, with a short radius so quest matches
-	// (tournaments, parties) away from fixed players do not mark anyone.
+	// Merchant whose NPC stands next to the player (the opponent of the match just played), or -1.
+	private function MerchantPinNextToPlayer( world : string ) : int
+	{
+		var i : int;
+		var npc : CNewNPC;
+		var playerPos : Vector = thePlayer.GetWorldPosition();
+
+		for ( i = 0; i < pins.Size(); i += 1 )
+		{
+			if ( pins[ i ].world != world || !IsNameValid( pins[ i ].tag ) )
+			{
+				continue;
+			}
+			npc = theGame.GetNPCByTag( pins[ i ].tag );
+			if ( npc && VecDistanceSquared2D( npc.GetWorldPosition(), playerPos ) < 6 * 6 )
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	private function MarkWon( idx : int )
+	{
+		if ( FactsQuerySum( "gwm_won_" + pins[ idx ].id ) == 0 )
+		{
+			FactsAdd( "gwm_won_" + pins[ idx ].id, 1, -1 );
+			theGame.GetGuiManager().ShowNotification( "Gwent: " + pins[ idx ].role + " beaten. Marked on the map." );
+		}
+	}
+
+	// Called on every won match. The game's own records stay the main source; this keeps
+	// the map right when another mod changes how Gwent rewards are given (e.g. Gwent overhauls).
 	public function OnGwentWon()
 	{
 		var idx : int;
@@ -114,15 +146,21 @@ class GwmData
 		{
 			return;
 		}
-		idx = FindNearest( world, thePlayer.GetWorldPosition(), 15 );
-		if ( idx < 0 || IsNameValid( pins[ idx ].tag ) || IsNameValid( pins[ idx ].card ) )
+
+		// A merchant standing right next to the player was the opponent.
+		idx = MerchantPinNextToPlayer( world );
+		if ( idx >= 0 )
 		{
+			MarkWon( idx );
 			return;
 		}
-		if ( FactsQuerySum( "gwm_won_" + pins[ idx ].id ) == 0 )
+
+		// Anyone else without a game record: the closest pin, with a short radius so quest
+		// matches (tournaments, parties) away from fixed players do not mark anyone.
+		idx = FindNearest( world, thePlayer.GetWorldPosition(), 15 );
+		if ( idx >= 0 && !IsNameValid( pins[ idx ].tag ) && !IsNameValid( pins[ idx ].card ) )
 		{
-			FactsAdd( "gwm_won_" + pins[ idx ].id, 1, -1 );
-			theGame.GetGuiManager().ShowNotification( "Gwent: " + pins[ idx ].role + " beaten. Marked on the map." );
+			MarkWon( idx );
 		}
 	}
 }

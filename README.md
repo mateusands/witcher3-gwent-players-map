@@ -1,6 +1,6 @@
 # Gwent Players Map
 
-A small mod for **The Witcher 3: Wild Hunt (Next Gen)** that puts every Gwent player you can
+A small mod for **The Witcher 3: Wild Hunt (Remastered / Next Gen)** that puts every Gwent player you can
 challenge on the world map: shopkeepers, blacksmiths, armorers, innkeepers, herbalists and the
 other merchants who will play you for a card. The goal is simple: find who still has a card for
 you, so you can grow your deck.
@@ -29,8 +29,11 @@ have cleared.
 
 ## Requirements
 
-- The Witcher 3: Wild Hunt **Next Gen** (4.04 or newer). The scripts use annotations
-  (`@wrapMethod`, `@addMethod`, `@addField`), which do not exist in the old 1.32 version.
+- The Witcher 3: Wild Hunt, current version: the **Remastered edition** (also called Next Gen,
+  patch 4.04 or newer). Remastered and Next Gen are the same branch of the game. The old 1.32
+  version is **not** supported: the scripts use annotations (`@wrapMethod`, `@addMethod`,
+  `@addField`) that 1.32 does not have.
+- Tested on the Steam Remastered edition (DX12).
 
 ## Installation
 
@@ -83,6 +86,28 @@ that the interactive map does not list were added.
   or "Card not obtained yet", based on whether their unique card is in your inventory.
 - *Anyone else* (a handful of players the game keeps no record for): the mod marks them when you
   win a match right next to their marker, from the moment the mod is installed.
+
+## Compatibility
+
+- **Gwent overhauls (Gwent Redux and similar):** the markers work the same. Merchants beaten
+  before installing this mod are detected through the game's own reward records; if an overhaul
+  changes how rewards are given, those may not show as beaten. Every match you win against a
+  merchant (standing right next to you) is also recorded by this mod, so new wins are always
+  marked.
+- **Script hooks:** `CR4MapMenu.UpdateEntityPins` (adds the cards to the world map) and
+  `CR4Player.SetGwintMinigameState` (notices a won match), both through `@wrapMethod`, plus a
+  field and a method added to `CR4Game`. No vanilla script file is replaced, so Script Merger is
+  not needed.
+- **Map mods:** any mod that replaces `panel_worldmap.redswf` conflicts with this one (see below).
+
+## Troubleshooting
+
+- **Nothing shows on the map:** check that the files ended up exactly at
+  `<game>\mods\modGwentPlayersMap\content\scripts\local\gwm.ws` (a mod manager sometimes adds
+  an extra folder level), and that the game shows no script compilation error on start.
+  Also check *Options > Mods > Gwent Players Map > Show Gwent markers*.
+- **Still not working:** open an issue or comment with your game version, how you installed the
+  mod, any error message and your other mods.
 
 ## Known limitations
 
