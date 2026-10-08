@@ -128,7 +128,7 @@ reports from players:
 
 | Mod | Works together? |
 | --- | --- |
-| All Quest Markers Plus | Yes (it hooks the same map function, but only edits quest and "?" markers) |
+| All Quest Markers Plus | Yes, tested together in game on patch 5.01 (it hooks the same map function, but only edits quest and "?" markers; custom pins work with both) |
 | Quest Levels on Map | Yes |
 | Colored Map Markers | Yes (it changes the minimap, not the world map) |
 | Missing Gwent Cards Tracker And Trader | Yes |
