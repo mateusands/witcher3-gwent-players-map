@@ -132,7 +132,7 @@ reports from players:
 | Map Quest Objectives | **No**: both replace `panel_worldmap.redswf` |
 | True Map POIs | Unknown: it ships the map menu precompiled, which may switch this mod's map hook off |
 | Seamless HUDs Maps | Yes, reported by players: give Seamless HUDs Maps a **higher priority** (lower number) than this mod; the cards then use its map style |
-| The Stable - Roach-Horse Customization | **No**, reported by a player: it replaces `panel_worldmap.redswf` and also ships precompiled map menu scripts, so changing the priority does not fix it |
+| The Stable - Roach-Horse Customization | Yes, with the [Gwent Players Map - The Stable compatibility patch](https://www.nexusmods.com/witcher3/mods/13834) by rhazzy (both mods replace `panel_worldmap.redswf`, so they do not work together without it) |
 
 - **Gwent overhauls (Gwent Redux and similar):** the markers work the same. Merchants beaten
   before installing this mod are detected through the game's own reward records; if an overhaul
@@ -158,7 +158,9 @@ Turn on **Debug info** in the options and open the world map:
   compilation error when the game starts, or another mod that replaces or precompiles the map
   menu. Check that the files ended up exactly at
   `<game>\mods\modGwentPlayersMap\content\scripts\local\gwm.ws` (a mod manager sometimes adds an
-  extra folder level).
+  extra folder level). Mod managers can also leave `.ws` script files behind from a mod you
+  uninstalled; a leftover script can break the script compilation, so remove any stray files of
+  mods you no longer use.
 - **Still not working:** open an issue or comment with the debug message, how you installed the
   mod, any error message and your other mods.
 
