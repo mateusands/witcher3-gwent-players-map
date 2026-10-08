@@ -53,10 +53,11 @@ have cleared.
 
 ## Requirements
 
-- The Witcher 3: Wild Hunt, current version: the **Remastered edition** (patch 5.0; also called
-  Next Gen, which started with patch 4.0). The old 1.32 version is **not** supported: the scripts
+- The Witcher 3: Wild Hunt, current version: the **Remastered edition** (also called Next Gen,
+  which started with patch 4.0). **Version 1.0.5 is built for game patch 5.01**; on patch 5.0 use
+  version 1.0.4. The old 1.32 version is **not** supported: the scripts
   use annotations (`@wrapMethod`, `@addMethod`, `@addField`) that 1.32 does not have.
-- Tested on the Steam Remastered edition, patch 5.0 (DX12).
+- Tested on the Steam Remastered edition, patch 5.01 (DX12).
 
 ## Installation
 
@@ -133,7 +134,7 @@ reports from players:
 | Map Quest Objectives | **No**: both replace `panel_worldmap.redswf` |
 | True Map POIs | Unknown: it ships the map menu precompiled, which may switch this mod's map hook off |
 | Seamless HUDs Maps | Yes, reported by players: give Seamless HUDs Maps a **higher priority** (lower number) than this mod; the cards then use its map style |
-| The Stable - Roach-Horse Customization | Yes, with the [Gwent Players Map - The Stable compatibility patch](https://www.nexusmods.com/witcher3/mods/13834) by rhazzy (both mods replace `panel_worldmap.redswf`, so they do not work together without it) |
+| The Stable - Roach-Horse Customization | Yes, with the [Gwent Players Map - The Stable compatibility patch](https://www.nexusmods.com/witcher3/mods/13834) by rhazzy (both mods replace `panel_worldmap.redswf`, so they do not work together without it). The patch was made for version 1.0.4 and game patch 5.0: check its page for an update for 1.0.5 / patch 5.01 |
 
 - **Gwent overhauls (Gwent Redux and similar):** the markers work the same. Merchants beaten
   before installing this mod are detected through the game's own reward records; if an overhaul
@@ -180,8 +181,10 @@ Turn on **Debug info** in the options and open the world map:
   their marker); wins from before the mod was installed cannot be detected.
 - **"Next to the merchant icon"** moves the card a fixed distance in the world, so when the map
   is zoomed far out the two icons can still touch.
-- **Game updates.** A future patch that changes the world map may break the mod. If the map
-  misbehaves after an update, uninstall the mod until there is a fix.
+- **Game updates.** The mod ships a modified copy of the game's world map file, built from a
+  specific game patch (1.0.5: patch 5.01). A future patch that changes the world map needs a new
+  version of the mod; until then the mod would show the older map. If the map misbehaves after an
+  update, uninstall the mod until there is a fix.
 - **Limited testing.** Tested on the Steam Remastered edition (DX12), on Linux through Proton, in
   Brazilian Portuguese, with a small number of other mods. Keep backups of your saves.
 
@@ -193,6 +196,15 @@ Delete `mods\modGwentPlayersMap` and
 
 The mod only writes a few small facts to your save (wins it recorded itself), which the game
 ignores once the mod is removed, so it can be uninstalled at any time.
+
+## Changelog
+
+- **1.0.5**: world map file rebuilt for game patch 5.01 (the patch changed the map and added new
+  pin types). Merchants beaten after the shared card pool runs out are now marked: the game
+  records nothing for those wins, so the mod marks the closest merchant marker (within 15 m) itself.
+- **1.0.4**: "Gwent" map filter and legend row, Debug info option, version in the options title,
+  marker fixes.
+- Older versions: see the [Releases page](https://github.com/mateusands/witcher3-gwent-players-map/releases).
 
 ## AI disclosure
 
