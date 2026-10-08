@@ -137,7 +137,8 @@ reports from players:
 | Map Quest Objectives | **No**: both replace `panel_worldmap.redswf` |
 | True Map POIs | Unknown: it ships the map menu precompiled, which may switch this mod's map hook off |
 | Seamless HUDs Maps | Yes, reported by players: give Seamless HUDs Maps a **higher priority** (lower number) than this mod; the cards then use its map style |
-| The Stable - Roach-Horse Customization | Yes, with the [Gwent Players Map - The Stable compatibility patch](https://www.nexusmods.com/witcher3/mods/13834) by rhazzy (both mods replace `panel_worldmap.redswf`, so they do not work together without it). The patch was made for version 1.0.4 and game patch 5.0: check its page for an update for 1.0.5 / patch 5.01 |
+| The Stable - Roach-Horse Customization | Yes, with the compatibility patch in [Witcher 3 Remastered - Patch HUB](https://www.nexusmods.com/witcher3/mods/13834) by rhazzy (both mods replace `panel_worldmap.redswf`, so they do not work together without it). Check its page for the version matching this mod and your game patch |
+| [Quest Level Markers](https://www.nexusmods.com/witcher3/mods/13121) | Yes, with the compatibility patch in [Witcher 3 Remastered - Patch HUB](https://www.nexusmods.com/witcher3/mods/13834) by rhazzy (it also has a patch for this mod + The Stable + Quest Level Markers together) |
 
 - **Gwent overhauls (Gwent Redux and similar):** the markers work the same. Merchants beaten
   before installing this mod are detected through the game's own reward records; if an overhaul
