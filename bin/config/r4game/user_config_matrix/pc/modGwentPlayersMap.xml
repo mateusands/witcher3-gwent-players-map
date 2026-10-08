@@ -20,6 +20,7 @@
 					</Option>
 				</OptionsArray>
 			</Var>
+			<Var id="GwmNotify" displayName="gwm_notify" displayType="TOGGLE"/>
 			<Var id="GwmDebug" displayName="gwm_debug" displayType="TOGGLE"/>
 		</VisibleVars>
 	</Group>

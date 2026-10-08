@@ -160,7 +160,10 @@ class GwmData
 		if ( FactsQuerySum( "gwm_won_" + pins[ idx ].id ) == 0 )
 		{
 			FactsAdd( "gwm_won_" + pins[ idx ].id, 1, -1 );
-			theGame.GetGuiManager().ShowNotification( "Gwent: " + pins[ idx ].role + " beaten. Marked on the map." );
+			if ( GwmConfigBool( 'GwmNotify', true ) )
+			{
+				theGame.GetGuiManager().ShowNotification( "Gwent: " + pins[ idx ].role + " beaten. Marked on the map." );
+			}
 		}
 	}
 
@@ -236,6 +239,11 @@ function GwmInitConfig()
 	if ( config.GetVarValue( 'GwentPlayersMap', 'GwmIconPlacement' ) == "" )
 	{
 		config.SetVarValue( 'GwentPlayersMap', 'GwmIconPlacement', "0" );
+		changed = true;
+	}
+	if ( config.GetVarValue( 'GwentPlayersMap', 'GwmNotify' ) == "" )
+	{
+		config.SetVarValue( 'GwentPlayersMap', 'GwmNotify', "true" );
 		changed = true;
 	}
 	if ( config.GetVarValue( 'GwentPlayersMap', 'GwmDebug' ) == "" )

@@ -36,7 +36,8 @@ have cleared.
 - Covers White Orchard, Velen, Novigrad, Oxenfurt, Skellige and Toussaint, including a few
   merchants added by Hearts of Stone and Blood and Wine.
 - Options menu: hide the markers, hide the players already beaten (show only the ones left),
-  choose where the card goes relative to the merchant's own map icon, and a "Debug info" switch.
+  choose where the card goes relative to the merchant's own map icon, turn the "beaten"
+  notification on or off, and a "Debug info" switch.
 - Everything is in English, in every game language.
 
 ## Good to know: what a merchant gives you
@@ -91,6 +92,8 @@ files exist in your game, add this line to both:
   - *Next to the merchant icon*: the card sits right next to the shop icon.
   - *Replace the merchant icon*: the shop icon is hidden and only the card is shown.
   - *On top of the merchant icon*: the card is drawn over the shop icon.
+- **Notify when a player is marked as beaten**: shows a notification when a win marks a player
+  on the map (on by default). Turn it off to mark players silently.
 - **Debug info**: shows a line each time the world map builds its markers, for example
   `Gwent Players Map 1.0.5: 47 markers on novigrad, map file loaded`. Useful when something does
   not show up (see "Troubleshooting").
@@ -202,6 +205,7 @@ ignores once the mod is removed, so it can be uninstalled at any time.
 - **1.0.5**: world map file rebuilt for game patch 5.01 (the patch changed the map and added new
   pin types). Merchants beaten after the shared card pool runs out are now marked: the game
   records nothing for those wins, so the mod marks the closest merchant marker (within 15 m) itself.
+  New option to turn off the notification shown when a player is marked as beaten.
 - **1.0.4**: "Gwent" map filter and legend row, Debug info option, version in the options title,
   marker fixes.
 - Older versions: see the [Releases page](https://github.com/mateusands/witcher3-gwent-players-map/releases).
