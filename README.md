@@ -38,7 +38,6 @@ have cleared.
 - Options menu: hide the markers, hide the players already beaten (show only the ones left),
   choose where the card goes relative to the merchant's own map icon, turn the "beaten"
   notification on or off, and a "Debug info" switch.
-- Everything is in English, in every game language.
 
 ## Good to know: what a merchant gives you
 
