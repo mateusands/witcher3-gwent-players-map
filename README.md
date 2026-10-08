@@ -139,6 +139,7 @@ reports from players:
 | Seamless HUDs Maps | Yes, reported by players: give Seamless HUDs Maps a **higher priority** (lower number) than this mod; the cards then use its map style |
 | The Stable - Roach-Horse Customization | Yes, with the compatibility patch in [Witcher 3 Remastered - Patch HUB](https://www.nexusmods.com/witcher3/mods/13834) by rhazzy (both mods replace `panel_worldmap.redswf`, so they do not work together without it). Check its page for the version matching this mod and your game patch |
 | [Quest Level Markers](https://www.nexusmods.com/witcher3/mods/13121) | Yes, with the compatibility patch in [Witcher 3 Remastered - Patch HUB](https://www.nexusmods.com/witcher3/mods/13834) by rhazzy (it also has a patch for this mod + The Stable + Quest Level Markers together) |
+| [World Map Merger](https://www.nexusmods.com/witcher3/mods/13846) | Can combine several mods that replace `panel_worldmap.redswf` into one (Vortex only for now). Its author says it supports Gwent Players Map; I haven't tested it myself (I play on Linux without Vortex). If you try it, please tell me how it goes and I'll update this table |
 
 - **Gwent overhauls (Gwent Redux and similar):** the markers work the same. Merchants beaten
   before installing this mod are detected through the game's own reward records; if an overhaul
