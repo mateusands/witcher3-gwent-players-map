@@ -203,7 +203,8 @@ ignores once the mod is removed, so it can be uninstalled at any time.
 ## Changelog
 
 - **1.0.5**: world map file rebuilt for game patch 5.01 (the patch changed the map and added new
-  pin types). Merchants beaten after the shared card pool runs out are now marked: the game
+  pin types). On patch 5.01, version 1.0.4 breaks custom map markers/waypoints (its 5.0 map file
+  calls the game's script the old way); 1.0.5 fixes that. Merchants beaten after the shared card pool runs out are now marked: the game
   records nothing for those wins, so the mod marks the closest merchant marker (within 15 m) itself.
   New option to turn off the notification shown when a player is marked as beaten.
 - **1.0.4**: "Gwent" map filter and legend row, Debug info option, version in the options title,
