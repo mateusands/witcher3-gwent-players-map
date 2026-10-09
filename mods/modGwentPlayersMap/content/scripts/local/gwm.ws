@@ -5,6 +5,9 @@
 //   tag   merchant: facts the game writes on the first win (see MerchantBeaten)
 //   card  quest player: the unique card is in the inventory
 //   none  anyone else: fact gwm_won_<pinId>, written by this mod after a win next to the pin
+// A few players stop appearing after a story event the game records as a fact (goneFacts, found in
+// the game's community spawn trees): their card is greyed out as "No longer available." Some pins
+// carry a short spoiler-free note (noteKey), e.g. a player who has to be rescued first.
 // Merchants also get gwm_won_<pinId> when beaten next to their pin: the game records nothing
 // once the shared card pool is used up, and another mod may change the reward facts.
 //
@@ -13,7 +16,7 @@
 
 function GwmVersion() : string
 {
-	return "1.0.5";
+	return "1.0.6";
 }
 
 struct GwmPin
@@ -22,9 +25,12 @@ struct GwmPin
 	var world : string;
 	var x     : float;
 	var y     : float;
-	var role  : string;
+	var role  : string;		// English text, used when no translation is available
+	var roleKey : string;	// localization key in the mod's .w3strings
 	var tag   : name;
 	var card  : name;
+	var noteKey   : string;			// optional spoiler-free note, localization key
+	var goneFacts : array< string >;	// any of these facts > 0: the player no longer appears
 }
 
 class GwmData
@@ -62,7 +68,7 @@ class GwmData
 		return cardIconsLoaded;
 	}
 
-	public function AddPin( id : int, world : string, x : float, y : float, role : string, tag : name, card : name )
+	public function AddPin( id : int, world : string, x : float, y : float, role : string, roleKey : string, tag : name, card : name )
 	{
 		var pin : GwmPin;
 
@@ -71,9 +77,65 @@ class GwmData
 		pin.x = x;
 		pin.y = y;
 		pin.role = role;
+		pin.roleKey = roleKey;
 		pin.tag = tag;
 		pin.card = card;
 		pins.PushBack( pin );
+	}
+
+	public function SetNote( id : int, noteKey : string )
+	{
+		var i : int = PinIndex( id );
+		var pin : GwmPin;
+
+		if ( i >= 0 )
+		{
+			pin = pins[ i ];
+			pin.noteKey = noteKey;
+			pins[ i ] = pin;
+		}
+	}
+
+	public function AddGoneFact( id : int, fact : string )
+	{
+		var i : int = PinIndex( id );
+		var pin : GwmPin;
+
+		if ( i >= 0 )
+		{
+			pin = pins[ i ];
+			pin.goneFacts.PushBack( fact );
+			pins[ i ] = pin;
+		}
+	}
+
+	private function PinIndex( id : int ) : int
+	{
+		var i : int;
+
+		for ( i = 0; i < pins.Size(); i += 1 )
+		{
+			if ( pins[ i ].id == id )
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	// The game no longer spawns this player (a recorded story fact, see goneFacts).
+	public function IsUnavailable( idx : int ) : bool
+	{
+		var i : int;
+
+		for ( i = 0; i < pins[ idx ].goneFacts.Size(); i += 1 )
+		{
+			if ( FactsQuerySum( pins[ idx ].goneFacts[ i ] ) > 0 )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	// Facts written by GiveMerchantRandomGwintCardToPlayerQuest and friends on the first win.
@@ -160,9 +222,9 @@ class GwmData
 		if ( FactsQuerySum( "gwm_won_" + pins[ idx ].id ) == 0 )
 		{
 			FactsAdd( "gwm_won_" + pins[ idx ].id, 1, -1 );
-			if ( GwmConfigBool( 'GwmNotify', true ) )
+			if ( GwmConfigBool( 'GwmNotify', false ) )
 			{
-				theGame.GetGuiManager().ShowNotification( "Gwent: " + pins[ idx ].role + " beaten. Marked on the map." );
+				theGame.GetGuiManager().ShowNotification( StrReplace( GwmLoc( "gwm_notify_beaten", "Gwent: {role} beaten. Marked on the map." ), "{role}", GwmRoleText( pins[ idx ] ) ) );
 			}
 		}
 	}
@@ -243,7 +305,7 @@ function GwmInitConfig()
 	}
 	if ( config.GetVarValue( 'GwentPlayersMap', 'GwmNotify' ) == "" )
 	{
-		config.SetVarValue( 'GwentPlayersMap', 'GwmNotify', "true" );
+		config.SetVarValue( 'GwentPlayersMap', 'GwmNotify', "false" );
 		changed = true;
 	}
 	if ( config.GetVarValue( 'GwentPlayersMap', 'GwmDebug' ) == "" )
@@ -360,6 +422,7 @@ function GwmSideOffset() : float
 	var playerPos     : Vector;
 	var obj           : CScriptedFlashObject;
 	var defeated      : bool;
+	var unavailable   : bool;
 	var pinType       : string;
 	var d, bestDist   : float;
 	var showDebug     : bool;
@@ -416,11 +479,13 @@ function GwmSideOffset() : float
 		}
 
 		defeated = data.IsDefeated( i );
-		if ( defeated && !showDefeated )
+		unavailable = !defeated && data.IsUnavailable( i );
+		// Players no longer available are greyed out like beaten ones and follow the same option.
+		if ( ( defeated || unavailable ) && !showDefeated )
 		{
 			continue;
 		}
-		if ( defeated )
+		if ( defeated || unavailable )
 		{
 			pinType = data.iconDefeated;
 		}
@@ -484,8 +549,8 @@ function GwmSideOffset() : float
 			obj.SetMemberFlashNumber( "distance", 0 );
 		}
 		// The legend row takes its text from the label, so the label is the same for every card.
-		obj.SetMemberFlashString( "label", "Gwent player" );
-		obj.SetMemberFlashString( "description", data.pins[ i ].role + " - " + GwmStatusText( data.pins[ i ], defeated ) );
+		obj.SetMemberFlashString( "label", GwmLoc( "gwm_label_gwent_player", "Gwent player" ) );
+		obj.SetMemberFlashString( "description", GwmRoleText( data.pins[ i ] ) + " - " + GwmStatusText( data.pins[ i ], defeated, unavailable ) + GwmNoteText( data.pins[ i ] ) );
 		flashArray.PushBackFlashObject( obj );
 		added += 1;
 	}
@@ -523,19 +588,56 @@ function GwmDebugNote( text : string )
 }
 
 // Quest players are judged by their card, so say that; everyone else is beaten or not.
-function GwmStatusText( pin : GwmPin, defeated : bool ) : string
+function GwmStatusText( pin : GwmPin, defeated : bool, unavailable : bool ) : string
 {
+	if ( unavailable )
+	{
+		return GwmLoc( "gwm_status_unavailable", "No longer available." );
+	}
 	if ( IsNameValid( pin.card ) && !IsNameValid( pin.tag ) )
 	{
 		if ( defeated )
 		{
-			return "Card obtained.";
+			return GwmLoc( "gwm_status_card_obtained", "Card obtained." );
 		}
-		return "Card not obtained yet.";
+		return GwmLoc( "gwm_status_card_not_obtained", "Card not obtained yet." );
 	}
 	if ( defeated )
 	{
-		return "Already beaten.";
+		return GwmLoc( "gwm_status_beaten", "Already beaten." );
 	}
-	return "Not beaten yet.";
+	return GwmLoc( "gwm_status_not_beaten", "Not beaten yet." );
+}
+
+// Optional spoiler-free note after the status (English fallbacks match gen_strings.py).
+function GwmNoteText( pin : GwmPin ) : string
+{
+	if ( pin.noteKey == "gwm_note_may_leave" )
+	{
+		return " " + GwmLoc( pin.noteKey, "May no longer be available after a certain quest." );
+	}
+	if ( pin.noteKey == "gwm_note_rescue_first" )
+	{
+		return " " + GwmLoc( pin.noteKey, "Must be rescued first." );
+	}
+	return "";
+}
+
+// Text shown to the player: the translation from the mod's .w3strings, or the English text when
+// the key is missing (a deleted or incomplete language file shows English instead of "#key").
+// The Debug info lines stay in English on purpose, so reports are easy to read.
+function GwmLoc( key : string, english : string ) : string
+{
+	var text : string = GetLocStringByKeyExt( key );
+
+	if ( StrLen( text ) == 0 || StrBeginsWith( text, "#" ) )
+	{
+		return english;
+	}
+	return text;
+}
+
+function GwmRoleText( pin : GwmPin ) : string
+{
+	return GwmLoc( pin.roleKey, pin.role );
 }

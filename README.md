@@ -54,8 +54,8 @@ have cleared.
 ## Requirements
 
 - The Witcher 3: Wild Hunt, current version: the **Remastered edition** (also called Next Gen,
-  which started with patch 4.0). **Version 1.0.5 is built for game patch 5.01**; on patch 5.0 use
-  version 1.0.4. The old 1.32 version is **not** supported: the scripts
+  which started with patch 4.0). **Versions 1.0.5 and later are built for game patch
+  5.01**; on patch 5.0 use version 1.0.4. The old 1.32 version is **not** supported: the scripts
   use annotations (`@wrapMethod`, `@addMethod`, `@addField`) that 1.32 does not have.
 - Tested on the Steam Remastered edition, patch 5.01 (DX12).
 
@@ -79,6 +79,25 @@ files exist in your game, add this line to both:
 
     modGwentPlayersMap.xml;
 
+### Translations (optional)
+
+The mod's texts are in English in every game language. Optional translation files replace them
+for one language: download one from the
+[Releases page](https://github.com/mateusands/witcher3-gwent-players-map/releases/latest)
+(for example `GwentPlayersMap-PTBR.zip`) and extract it into the game folder after the mod. It
+only contains `mods\modGwentPlayersMap\content\<language>.w3strings`. Available: Brazilian
+Portuguese. Installing or updating the main mod brings back the English text, so install the
+translation again afterwards.
+
+### Updating from an older version
+
+Delete the old `mods\modGwentPlayersMap` folder first, then install the new version as above
+(or let your mod manager replace the files). This keeps no outdated script behind.
+
+Nothing is lost when you update: the wins are stored in your save (the game's own records plus
+the facts this mod writes, tied to marker numbers that never change), and your options stay as
+you set them.
+
 ## Options
 
 **Options > Mods > Gwent Players Map** (the title shows the installed version)
@@ -88,13 +107,13 @@ files exist in your game, add this line to both:
 - **Show Gwent markers**: turns all the cards on the map on or off.
 - **Show players already beaten**: turn it off to see only the players you still have to beat.
 - **Icon placement**:
-  - *Next to the merchant icon*: the card sits right next to the shop icon.
+  - *Next to the merchant icon* (default): the card sits right next to the shop icon.
   - *Replace the merchant icon*: the shop icon is hidden and only the card is shown.
   - *On top of the merchant icon*: the card is drawn over the shop icon.
 - **Notify when a player is marked as beaten**: shows a notification when a win marks a player
-  on the map (on by default). Turn it off to mark players silently.
+  on the map (off by default). Turn it on to get a message each time.
 - **Debug info**: shows a line each time the world map builds its markers, for example
-  `Gwent Players Map 1.0.5: 47 markers on novigrad, map file loaded`. Useful when something does
+  `Gwent Players Map 1.0.6: 47 markers on novigrad, map file loaded`. Useful when something does
   not show up (see "Troubleshooting").
 
 ## How it works
@@ -176,6 +195,15 @@ Turn on **Debug info** in the options and open the world map:
   matched in the game files. Some players may be missing, and a few markers may be a little off
   their exact spot. The focus is the merchants, blacksmiths, innkeepers and other fixed players
   who give you a card; one-off quest matches (tournaments, story scenes) are not marked.
+- **Players follow the game's own schedule.** A marker shows where the player works. Merchants
+  are usually there only during working hours (for example from early morning to evening), and
+  some are away, or only greet you without opening their shop, while a nearby story quest is in
+  progress. This is the game's behavior, not the mod's: come back later (meditating helps) or
+  after that quest.
+- **Players that depend on the story:** a few players only appear after you help them, or stop
+  appearing after a certain quest. Their marker shows a short, spoiler-free note. When the game
+  records that a player is gone for good, the card turns grey with "No longer available." Only
+  cases confirmed in the game files are marked; for other players the marker stays as it is.
 - **Two smiths have no game record:** the blacksmiths in Larvik and Fyresdal play Gwent but the
   game keeps no record of beating them. They only turn grey when you beat them with the mod
   installed.
@@ -186,7 +214,7 @@ Turn on **Debug info** in the options and open the world map:
 - **"Next to the merchant icon"** moves the card a fixed distance in the world, so when the map
   is zoomed far out the two icons can still touch.
 - **Game updates.** The mod ships a modified copy of the game's world map file, built from a
-  specific game patch (1.0.5: patch 5.01). A future patch that changes the world map needs a new
+  specific game patch (1.0.5 and 1.0.6: patch 5.01). A future patch that changes the world map needs a new
   version of the mod; until then the mod would show the older map. If the map misbehaves after an
   update, uninstall the mod until there is a fix.
 - **Limited testing.** Tested on the Steam Remastered edition (DX12), on Linux through Proton, in
@@ -203,6 +231,14 @@ ignores once the mod is removed, so it can be uninstalled at any time.
 
 ## Changelog
 
+- **1.0.6**: the map texts (marker tooltip, status, notification and player roles) can now be
+  translated. The mod stays in English; a Brazilian Portuguese translation is available as an
+  optional file. Players that depend on the story get a short, spoiler-free note on their
+  marker (based on the Witcher 3 Interactive Map and checked in the game files): two players who
+  must be rescued first, and the Downwarren shopkeeper, whose card turns grey with "No longer
+  available." once the game records that he is gone. New installs start with "Next to the
+  merchant icon" and with the beaten notification off. Updating from 1.0.5 keeps all recorded
+  wins and options.
 - **1.0.5**: world map file rebuilt for game patch 5.01 (the patch changed the map and added new
   pin types). On patch 5.01, version 1.0.4 breaks custom map markers/waypoints (its 5.0 map file
   calls the game's script the old way); 1.0.5 fixes that. Merchants beaten after the shared card pool runs out are now marked: the game
