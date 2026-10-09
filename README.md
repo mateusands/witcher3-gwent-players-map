@@ -89,6 +89,10 @@ only contains `mods\modGwentPlayersMap\content\<language>.w3strings`. Available:
 Portuguese. Installing or updating the main mod brings back the English text, so install the
 translation again afterwards.
 
+Want to translate the mod? Copy [translations/TEMPLATE.csv](translations/TEMPLATE.csv), translate
+the part after `;` on each line (keep `{role}` as it is) and send it in an issue or pull request;
+the `.w3strings` file is built from it.
+
 ### Updating from an older version
 
 Delete the old `mods\modGwentPlayersMap` folder first, then install the new version as above

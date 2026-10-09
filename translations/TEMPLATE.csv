@@ -1,0 +1,47 @@
+# Gwent Players Map 1.0.6 - texts to translate. Copy to <lang>.csv (br, de, fr, ru, ...)
+# and translate the part after ";". Keep {role} as it is. Missing lines stay in English.
+panel_gwentplayersmap;Gwent Players Map 1.0.6
+option_gwm_show_pins;Show Gwent markers
+option_gwm_show_defeated;Show players already beaten
+option_gwm_icon_placement;Icon placement
+preset_value_gwm_side;Next to the merchant icon
+preset_value_gwm_replace;Replace the merchant icon
+preset_value_gwm_overlap;On top of the merchant icon
+option_gwm_debug;Debug info
+map_category_gwent;Gwent
+option_gwm_notify;Notify when a player is marked as beaten
+gwm_label_gwent_player;Gwent player
+gwm_status_beaten;Already beaten.
+gwm_status_not_beaten;Not beaten yet.
+gwm_status_card_obtained;Card obtained.
+gwm_status_card_not_obtained;Card not obtained yet.
+gwm_notify_beaten;Gwent: {role} beaten. Marked on the map.
+gwm_status_unavailable;No longer available.
+gwm_note_may_leave;May no longer be available after a certain quest.
+gwm_note_rescue_first;Must be rescued first.
+gwm_role_alchemist;Alchemist
+gwm_role_armorer;Armorer
+gwm_role_barber;Barber
+gwm_role_blacksmith;Blacksmith
+gwm_role_bloody_baron;Bloody Baron
+gwm_role_book_merchant;Book merchant
+gwm_role_brothel_madam;Brothel madam
+gwm_role_butcher;Butcher
+gwm_role_crippled_kate;Crippled Kate
+gwm_role_fergus_graem_armorer;Fergus Graem (armorer)
+gwm_role_fishmonger;Fishmonger
+gwm_role_gremist;Gremist
+gwm_role_herbalist;Herbalist
+gwm_role_innkeeper;Innkeeper
+gwm_role_innkeeper_inn_at_the_crossroads;Innkeeper, Inn at the Crossroads
+gwm_role_loan_shark;Loan shark
+gwm_role_merchant;Merchant
+gwm_role_nilfgaardian_officer;Nilfgaardian officer
+gwm_role_olivier_kingfisher;Olivier (Kingfisher)
+gwm_role_quartermaster;Quartermaster
+gwm_role_shopkeeper;Shopkeeper
+gwm_role_stjepan_alchemy_oxenfurt;Stjepan (Alchemy, Oxenfurt)
+gwm_role_tailor;Tailor
+gwm_role_vimme_vivaldi;Vimme Vivaldi
+gwm_role_wine_merchant;Wine merchant
+gwm_role_yoana_armorer_s_assistant;Yoana (armorer's assistant)
