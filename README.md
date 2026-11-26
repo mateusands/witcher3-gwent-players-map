@@ -56,10 +56,10 @@ already beaten. The legend row counts the players and jumps between them.*
 ## Requirements
 
 - The Witcher 3: Wild Hunt, current version: the **Remastered edition** (also called Next Gen,
-  which started with patch 4.0). **Versions 1.0.5 and later are built for game patch
-  5.01**; on patch 5.0 use version 1.0.4. The old 1.32 version is **not** supported: the scripts
+  which started with patch 4.0). **Version 1.0.10 is built for game patch 5.02**; on patch
+  5.01 use 1.0.9, on patch 5.0 use 1.0.4. The old 1.32 version is **not** supported: the scripts
   use annotations (`@wrapMethod`, `@addMethod`, `@addField`) that 1.32 does not have.
-- Tested on the Steam Remastered edition, patch 5.01 (DX12).
+- Tested on the Steam Remastered edition, patch 5.02 (DX12).
 
 ## Installation
 
@@ -123,7 +123,7 @@ is shown by *Debug info*)
 - **Notify when a player is marked as beaten**: shows a notification when a win marks a player
   on the map (off by default). Turn it on to get a message each time.
 - **Debug info**: shows a line each time the world map builds its markers, for example
-  `Gwent Players Map 1.0.9: 47 markers on novigrad, map file loaded` (the installed version comes
+  `Gwent Players Map 1.0.10: 47 markers on novigrad, map file loaded` (the installed version comes
   first). Useful when something does not show up (see "Troubleshooting").
 
 Where the card sits follows the map filter (since 1.0.8; it used to be the *Icon placement*
@@ -226,7 +226,7 @@ Turn on **Debug info** in the options and open the world map:
 - **Outside the Gwent filter** the card is moved a fixed distance in the world, so when the map
   is zoomed far out the card and the shop icon can still touch.
 - **Game updates.** The mod ships a modified copy of the game's world map file, built from a
-  specific game patch (1.0.5 to 1.0.9: patch 5.01). A future patch that changes the world map needs a new
+  specific game patch (1.0.5 to 1.0.9: patch 5.01; 1.0.10: patch 5.02). A future patch that changes the world map needs a new
   version of the mod; until then the mod would show the older map. If the map misbehaves after an
   update, uninstall the mod until there is a fix.
 - **Limited testing.** Tested on the Steam Remastered edition (DX12), on Linux through Proton, in
@@ -242,6 +242,10 @@ The mod only writes a few small facts to your save (wins it recorded itself), wh
 ignores once the mod is removed, so it can be uninstalled at any time.
 
 ## Changelog
+
+- **1.0.10**: world map file rebuilt for game patch 5.02, which changed the map again (32:9
+  support, tooltip fix, two pin types removed). 1.0.9 still works on 5.02, but its older map file
+  replaces those fixes. Russian translation fixes by CredereNemo.
 
 - **1.0.9**: Removed four Skellige cards that could not be beaten: the Kaer Trolde harbor shopkeeper and the Rannvaig fishmonger (not there in game), the Svorlag blacksmith (no Gwent game) and the Larvik blacksmith (the game never recorded wins against him). Thanks to the player who reported them.
 
